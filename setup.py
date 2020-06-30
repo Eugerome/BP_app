@@ -10,4 +10,9 @@ requires = [
 setup(
     name='bp_app',
     install_requires=requires,
+    entry_points={
+        'paste.app_factory': [
+            'main = bp_app:main'
+        ],
+    },
 )
