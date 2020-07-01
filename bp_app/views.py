@@ -1,13 +1,17 @@
-from pyramid.view import view_config
+from pyramid.view import (
+    view_config,
+    view_defaults
+    )
 
+@view_defaults(renderer='./templates/home.pt')
+class BP_views:
+    def __init__(self, request):
+        self.request = request
 
-# First view, available at http://localhost:8000/
-@view_config(route_name='home', renderer='./templates/home.pt')
-def home(request):
-    return {'name': 'Home View'}
+    @view_config(route_name='home')
+    def home(self):
+        return {'name': 'Home View'}
 
-
-# /howdy
-@view_config(route_name='hello', renderer='./templates/home.pt')
-def hello(request):
-    return {'name': 'Hello View'}
+    @view_config(route_name='hello')
+    def hello(self):
+        return {'name': 'Hello View'}

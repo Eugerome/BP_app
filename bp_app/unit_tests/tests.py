@@ -11,19 +11,19 @@ class TutorialViewTests(unittest.TestCase):
         testing.tearDown()
 
     def test_home(self):
-        from bp_app.views import home
+        from bp_app.views import BP_views
 
         request = testing.DummyRequest()
-        response = home(request)
-        # Our view now returns data
+        inst = BP_views(request)
+        response = inst.home()
         self.assertEqual('Home View', response['name'])
 
     def test_hello(self):
-        from bp_app.views import hello
+        from bp_app.views import BP_views
 
         request = testing.DummyRequest()
-        response = hello(request)
-        # Our view now returns data
+        inst = BP_views(request)
+        response = inst.hello()
         self.assertEqual('Hello View', response['name'])
 
 
