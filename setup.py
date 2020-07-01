@@ -7,9 +7,18 @@ requires = [
     'waitress',
 ]
 
+dev_requires = [
+    'pyramid_debugtoolbar',
+    'pytest',
+]
+
+
 setup(
     name='bp_app',
     install_requires=requires,
+    extras_require={
+        'dev': dev_requires,
+    },
     entry_points={
         'paste.app_factory': [
             'main = bp_app:main'
