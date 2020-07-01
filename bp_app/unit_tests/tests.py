@@ -11,20 +11,20 @@ class TutorialViewTests(unittest.TestCase):
         testing.tearDown()
 
     def test_home(self):
-        from bp_app.views.views import home
+        from bp_app.views import home
 
         request = testing.DummyRequest()
         response = home(request)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Visit', response.body)
+        # Our view now returns data
+        self.assertEqual('Home View', response['name'])
 
     def test_hello(self):
-        from bp_app.views.views import hello
+        from bp_app.views import hello
 
         request = testing.DummyRequest()
         response = hello(request)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Go back', response.body)
+        # Our view now returns data
+        self.assertEqual('Hello View', response['name'])
 
 
 class TutorialFunctionalTests(unittest.TestCase):
@@ -37,8 +37,8 @@ class TutorialFunctionalTests(unittest.TestCase):
 
     def test_home(self):
         res = self.testapp.get('/', status=200)
-        self.assertIn(b'<body>Visit', res.body)
+        self.assertIn(b'<h1>Hi Home View', res.body)
 
     def test_hello(self):
         res = self.testapp.get('/howdy', status=200)
-        self.assertIn(b'<body>Go back', res.body)
+        self.assertIn(b'<h1>Hi Hello View', res.body)
