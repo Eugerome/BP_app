@@ -11,7 +11,10 @@ requires = [
 dev_requires = [
     'pyramid_debugtoolbar',
     'pytest',
-    'webtest'
+    'pyramid_tm',
+    'sqlalchemy',
+    'webtest',
+    'zope.sqlalchemy'
 ]
 
 
@@ -24,6 +27,9 @@ setup(
     entry_points={
         'paste.app_factory': [
             'main = bp_app:main'
+        ],
+        'console_scripts': [
+            'initialize_bp_app_db = bp_app.initialize_db:main'
         ],
     },
 )
