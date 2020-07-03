@@ -1,9 +1,27 @@
 import unittest
+import transaction
+
+from datetime import datetime
 
 from pyramid import testing
 
+def _initTestingDB():
+    from sqlalchemy import create_engine
+    from .models import (
+        DBSession,
+        Record,
+        Base
+        )
+    engine = create_engine('sqlite://')
+    Base.metadata.create_all(engine)
+    DBSession.configure(bind=engine)
+    with transaction.manager:
+        model = Record(timestamp=datetime.utcnow(), bp_upper=120, bp_lower=70, notes='')
+        DBSession.add(model)
+    return DBSession
 
-class TutorialViewTests(unittest.TestCase):
+
+class ViewTests(unittest.TestCase):
     def setUp(self):
         self.config = testing.setUp()
 
@@ -27,7 +45,7 @@ class TutorialViewTests(unittest.TestCase):
         self.assertEqual('Hello View', response['name'])
 
 
-class TutorialFunctionalTests(unittest.TestCase):
+class HtmlTests(unittest.TestCase):
     def setUp(self):
         from bp_app import main
         app = main({})
