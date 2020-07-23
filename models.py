@@ -35,11 +35,21 @@ class Record(Base):
     notes = Column(Text)
 
     def __init__(self, timestamp=datetime.utcnow(), bp_upper=random.randint(100,160), bp_lower=random.randint(50,80), notes="Test"):
-        """Create a random value by default."""
+        """Create an instance with random values by default."""
         self.timestamp = timestamp
-        self.bp_upper = bp_upper
-        self.bp_lower = bp_lower
-        self.notes = notes
+        self.bp_upper = int(bp_upper)
+        self.bp_lower = int(bp_lower)
+        self.notes = str(notes)
+
+    @classmethod
+    def from_dict(cls, form_dict):
+        """Create an instance from a dict."""
+        return cls(
+            timestamp=form_dict.get("timestamp", datetime.utcnow()),
+            bp_upper=int(form_dict.get("bp_upper", 0)),
+            bp_lower=int(form_dict.get("bp_lower", 0)),
+            notes=str(form_dict.get("notes", ""))
+            )
 
     def to_dict(self):
         """Returns instance as dict."""

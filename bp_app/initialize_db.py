@@ -35,5 +35,5 @@ def main(argv=sys.argv):
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     with transaction.manager:
-        model = Record(timestamp=datetime.utcnow(), bp_upper=120, bp_lower=70, notes='')
+        model = Record()
         DBSession.add(model)

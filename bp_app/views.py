@@ -1,4 +1,5 @@
 import logging
+import transaction
 
 from pyramid.httpexceptions import HTTPNotFound
 
@@ -25,8 +26,6 @@ class BP_views:
     @view_config(route_name='records', request_method="GET")
     def return_records(self):
         logger.info("Return records")
-        # record = Record()
-        # DBSession.add(record)
         records = DBSession.query(Record).all()
         if records:
             records_json = []
