@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import random
 
 from pyramid.security import Allow, Everyone
 
@@ -33,7 +34,15 @@ class Record(Base):
     bp_lower = Column(Integer)
     notes = Column(Text)
 
+    def __init__(self, timestamp=datetime.utcnow(), bp_upper=random.randint(100,160), bp_lower=random.randint(50,80), notes="Test"):
+        """Create a random value by default."""
+        self.timestamp = timestamp
+        self.bp_upper = bp_upper
+        self.bp_lower = bp_lower
+        self.notes = notes
+
     def to_dict(self):
+        """Returns instance as dict."""
         return {
             "uid": self.uid,
             "timestamp": self.timestamp.isoformat(),
@@ -43,7 +52,10 @@ class Record(Base):
             }
 
     def to_json(self):
+        """Returns instance as json."""
         return json.dumps(self.to_dict())
+
+
 
 
 class Root(object):
