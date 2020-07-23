@@ -69,6 +69,7 @@ class BP_views:
         with transaction.manager:
             record = Record.from_dict(form_dict)
             DBSession.add(record)
+            transaction.commit()
         return {"success": True}
 
     @view_config(route_name="update_record", request_method="POST")
@@ -87,5 +88,18 @@ class BP_views:
             for key, value in form_dict.items():
                 setattr(record, key, value)
             transaction.commit()
+            return {"success": True}
+        return {"success": False}
+
+    @view_config(route_name="delete_record", request_method="GET")
+    def delete_record(self):
+        """Delete record based on uid."""
+        uid = self.request.matchdict['uid']
+        # shouldn't be any duplicate uid since primary key
+        record = DBSession.query(Record).filter_by(uid=uid).first()
+        if record:
+            with transaction.manager:
+                DBSession.delete(record)
+                transaction.commit()
             return {"success": True}
         return {"success": False}
