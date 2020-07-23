@@ -13,6 +13,7 @@ def main(global_config, **settings):
     config = Configurator(settings=settings, root_factory='models.Root')
     config.include('pyramid_chameleon')
     config.add_route('home', '/')
+    config.add_route("add_record", "/records/add")
     config.add_route("records", "/records")
     config.scan('.views')
     return config.make_wsgi_app()
