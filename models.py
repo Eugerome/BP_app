@@ -10,6 +10,7 @@ from sqlalchemy import (
     )
 
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.declarative import as_declarative
 
 from sqlalchemy.orm import (
     scoped_session,
