@@ -72,7 +72,7 @@ class BP_views:
             transaction.commit()
         return {"success": True}
 
-    @view_config(route_name="update_record", request_method="POST")
+    @view_config(route_name="update_record", request_method="PUT")
     def update_record(self):
         """Update record based on uid."""
         controls = self.request.POST.items()
