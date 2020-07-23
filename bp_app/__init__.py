@@ -14,6 +14,7 @@ def main(global_config, **settings):
     config.include('pyramid_chameleon')
     config.add_route('home', '/')
     config.add_route("add_record", "/records/add")
+    config.add_route("update_record", "/records/{uid}/update")
     config.add_route("get_record", "/records/{uid}")
     config.add_route("records", "/records")
     config.scan('.views')

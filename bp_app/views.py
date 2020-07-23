@@ -71,3 +71,21 @@ class BP_views:
             DBSession.add(record)
         return {"success": True}
 
+    @view_config(route_name="update_record", request_method="POST")
+    def update_record(self):
+        """Update record based on uid."""
+        controls = self.request.POST.items()
+        try:
+            form_dict = self.record_form.validate(controls)
+        except deform.ValidationFailure as e:
+            # Form is NOT valid
+            return {"error": "failed to validate"}
+        uid = self.request.matchdict['uid']
+        # shouldn't be any duplicate uid since primary key
+        record = DBSession.query(Record).filter_by(uid=uid).first()
+        if record:
+            for key, value in form_dict.items():
+                setattr(record, key, value)
+            transaction.commit()
+            return {"success": True}
+        return {"success": False}
