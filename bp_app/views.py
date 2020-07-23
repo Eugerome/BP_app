@@ -17,15 +17,12 @@ class BP_views:
     def __init__(self, request):
         self.request = request      
 
-    @staticmethod
-    def record_to_json(record):
-        return {
-            "uid": record.uid,
-            "timestamp": record.timestamp.isoformat(),
-            "bp_upper": record.bp_upper,
-            "bp_lower": record.bp_lower,
-            "notes": record.notes
-            }
+    # @staticmethod
+    # def json_to_record(form_payload):
+    #     DBSession.add(Record(
+    #         timestamp=datetime.utcnow(),
+    #         body=new_body
+    #         ))
 
     @view_config(route_name='home')
     def home(self):
@@ -39,7 +36,7 @@ class BP_views:
         if records:
             records_json = []
             for record in records:
-                records_json.append(BP_views.record_to_json(record))
+                records_json.append(record.to_json())
             return records_json
         return HTTPNotFound
 

@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 from pyramid.security import Allow, Everyone
 
@@ -31,6 +32,18 @@ class Record(Base):
     bp_upper = Column(Integer)
     bp_lower = Column(Integer)
     notes = Column(Text)
+
+    def to_dict(self):
+        return {
+            "uid": self.uid,
+            "timestamp": self.timestamp.isoformat(),
+            "bp_upper": self.bp_upper,
+            "bp_lower": self.bp_lower,
+            "notes": self.notes
+            }
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
 
 
 class Root(object):
