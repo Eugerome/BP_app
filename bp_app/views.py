@@ -91,7 +91,7 @@ class BP_views:
             return {"success": True}
         return {"success": False}
 
-    @view_config(route_name="delete_record", request_method="GET")
+    @view_config(route_name="delete_record", request_method="DELETE")
     def delete_record(self):
         """Delete record based on uid."""
         uid = self.request.matchdict['uid']
