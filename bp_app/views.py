@@ -45,7 +45,17 @@ class BP_views:
             for record in records:
                 records_json.append(record.to_dict())
             return records_json
-        return HTTPNotFound
+        return {"success": False}
+
+    @view_config(route_name="get_record", request_method="GET")
+    def get_record(self):
+        """Retrieve record based on uid."""
+        uid = self.request.matchdict['uid']
+        # shouldn't be any duplicate uid since primary key
+        record = DBSession.query(Record).filter_by(uid=uid).first()
+        if record:
+            return record.to_dict()
+        return {"success": False}
 
     @view_config(route_name="add_record", request_method="POST")
     def add_record(self):
@@ -60,3 +70,4 @@ class BP_views:
             record = Record.from_dict(form_dict)
             DBSession.add(record)
         return {"success": True}
+
