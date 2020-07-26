@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 import random
 
-from pyramid.security import Allow, Everyone
+from pyramid.security import Allow, Everyone, Authenticated
 
 from sqlalchemy import (
     Column,
@@ -69,7 +69,7 @@ class Record(Base):
 
 
 class Root(object):
-    __acl__ = [(Allow, Everyone, 'view'),
+    __acl__ = [(Allow, Authenticated, "read"),(Allow, Everyone, 'view'),
                (Allow, 'group:editors', 'edit')]
 
     def __init__(self, request):
