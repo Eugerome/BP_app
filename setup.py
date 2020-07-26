@@ -5,7 +5,9 @@ from setuptools import setup
 requires = [
     'deform',
     'pyramid',
+    "pyramid_jwt",
     'pyramid_chameleon',
+    "pyramid_openapi3",
     'waitress',
 ]
 

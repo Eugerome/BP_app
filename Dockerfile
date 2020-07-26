@@ -5,4 +5,4 @@ RUN apt upgrade -y
 RUN apt-get install vim -y
 RUN apt-get install git -y
 
-EXPOSE 8000
+EXPOSE 6543
