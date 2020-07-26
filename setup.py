@@ -6,6 +6,7 @@ requires = [
     'deform',
     'pyramid',
     'pyramid_chameleon',
+    "pyramid_openapi3",
     'waitress',
 ]
 

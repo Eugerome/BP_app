@@ -1,4 +1,5 @@
 from pyramid.config import Configurator
+import os
 
 from sqlalchemy import engine_from_config
 
@@ -19,4 +20,8 @@ def main(global_config, **settings):
     config.add_route("get_record", "/records/{uid}")
     config.add_route("records", "/records")
     config.scan('.views')
+    # add openapi config
+    config.include("pyramid_openapi3")
+    config.pyramid_openapi3_spec(os.path.join(os.path.dirname(__file__), 'openapi.yaml'))
+    config.pyramid_openapi3_add_explorer(route='docs')
     return config.make_wsgi_app()
