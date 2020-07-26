@@ -9,4 +9,4 @@ services:
             - ..:/BP_app
         ports:
             - "6543:6543"
-        command: /bin/sh -c 'cd ./BP_app/bp_app && pip3 install -e ".[dev]" && while sleep 1000; do :; done'
+        command: /bin/sh -c 'cd ./BP_app/bp_app && pip3 install -e ".[dev]" && pserve development.ini'
