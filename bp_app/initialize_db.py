@@ -37,3 +37,6 @@ def main(argv=sys.argv):
     with transaction.manager:
         model = Record()
         DBSession.add(model)
+
+if __name__ == "__main__":
+    main()
