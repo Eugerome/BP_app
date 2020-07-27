@@ -29,8 +29,26 @@ paths:
         400:
           description: Bad Request
 
+  /records/add:
+
+    post:
+      summary: Create a blood pressure record
+      requestBody:
+        required: true
+        description: A record to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Record'
+      responses:
+        200:
+          description: Record created
+        400:
+          description: Bad Request
+
   /records/{id}:
     get:
+      summary: Retrieve record based on id
       parameters:
         - name: id
           in: path
@@ -40,7 +58,6 @@ paths:
             type : integer
             format: int64
             minimum: 1
-      summary: Retrieve record based on id
       responses:
         200:
           description: Record returned
@@ -49,6 +66,7 @@ paths:
         400:
           description: Bad Request
     delete:
+      summary: Delete record based on id
       parameters:
         - name: id
           in: path
@@ -58,7 +76,6 @@ paths:
             type : integer
             format: int64
             minimum: 1
-      summary: Delete record based on id
       responses:
         200:
           description: Record deleted
@@ -67,6 +84,7 @@ paths:
         400:
           description: Bad Request
     put:
+      summary: Update record based on id
       parameters:
         - name: id
           in: path
@@ -76,7 +94,6 @@ paths:
             type : integer
             format: int64
             minimum: 1
-      summary: Update record based on id
       responses:
         200:
           description: Record updated
@@ -91,6 +108,9 @@ components:
 
     Record:
       type: object
+      required:
+        - bp_upper
+        - bp_lower
       properties:
         id:
           type: integer
@@ -101,13 +121,13 @@ components:
           type: integer
           format: int32
           minimum: 70
-          maximum: 300
+          maximum: 370
           example: 120
         bp_lower:
           type: integer
           format: int32
           minimum: 20
-          maximum: 150
+          maximum: 370
           example: 60
         timestamp:
           type: string
