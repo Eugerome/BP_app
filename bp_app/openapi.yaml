@@ -53,7 +53,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: Parameter description in CommonMark or HTML.
+          description: Record Id
           schema:
             type : integer
             format: int64
@@ -71,7 +71,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: Parameter description in CommonMark or HTML.
+          description: Record Id
           schema:
             type : integer
             format: int64
@@ -89,11 +89,18 @@ paths:
         - name: id
           in: path
           required: true
-          description: Parameter description in CommonMark or HTML.
+          description: Record Id
           schema:
             type : integer
             format: int64
             minimum: 1
+      requestBody:
+        required: true
+        description: A record to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Record'
       responses:
         200:
           description: Record updated
@@ -115,6 +122,7 @@ components:
         id:
           type: integer
           format: int32
+          description: The primary key in db - any passed parameter in json gets ignored
           minimum: 0
           example: 2
         bp_upper:
