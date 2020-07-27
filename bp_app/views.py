@@ -47,16 +47,6 @@ class BP_views:
             return records_json
         return {"success": False}
 
-    @view_config(route_name="get_record", request_method="GET")
-    def get_record(self):
-        """Retrieve record based on id."""
-        id = self.request.matchdict['id']
-        # shouldn't be any duplicate id since primary key
-        record = DBSession.query(Record).filter_by(id=id).first()
-        if record:
-            return record.to_dict()
-        return {"success": False}
-
     @view_config(route_name="add_record", request_method="POST")
     def add_record(self):
         """Verifies post form and saves record to database."""
@@ -71,8 +61,18 @@ class BP_views:
             DBSession.add(record)
             transaction.commit()
         return {"success": True}
+        
+    @view_config(route_name="operate_record", request_method="GET")
+    def get_record(self):
+        """Retrieve record based on id."""
+        id = self.request.matchdict['id']
+        # shouldn't be any duplicate id since primary key
+        record = DBSession.query(Record).filter_by(id=id).first()
+        if record:
+            return record.to_dict()
+        return {"success": False}
 
-    @view_config(route_name="update_record", request_method="PUT")
+    @view_config(route_name="operate_record", request_method="PUT")
     def update_record(self):
         """Update record based on id."""
         controls = self.request.POST.items()
@@ -91,7 +91,7 @@ class BP_views:
             return {"success": True}
         return {"success": False}
 
-    @view_config(route_name="delete_record", request_method="DELETE")
+    @view_config(route_name="operate_record", request_method="DELETE")
     def delete_record(self):
         """Delete record based on id."""
         id = self.request.matchdict['id']
