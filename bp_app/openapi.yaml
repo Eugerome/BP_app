@@ -29,10 +29,10 @@ paths:
         400:
           description: Bad Request
 
-  /records/{uid}:
+  /records/{id}:
     get:
       parameters:
-        - name: uid
+        - name: id
           in: path
           required: true
           description: Parameter description in CommonMark or HTML.
@@ -40,7 +40,7 @@ paths:
             type : integer
             format: int64
             minimum: 1
-      summary: Retrieve record based on uid
+      summary: Retrieve record based on id
       responses:
         200:
           description: Record returned
@@ -50,7 +50,7 @@ paths:
           description: Bad Request
     delete:
       parameters:
-        - name: uid
+        - name: id
           in: path
           required: true
           description: Parameter description in CommonMark or HTML.
@@ -58,7 +58,7 @@ paths:
             type : integer
             format: int64
             minimum: 1
-      summary: Delete record based on uid
+      summary: Delete record based on id
       responses:
         200:
           description: Record deleted
@@ -68,7 +68,7 @@ paths:
           description: Bad Request
     put:
       parameters:
-        - name: uid
+        - name: id
           in: path
           required: true
           description: Parameter description in CommonMark or HTML.
@@ -76,7 +76,7 @@ paths:
             type : integer
             format: int64
             minimum: 1
-      summary: Update record based on uid
+      summary: Update record based on id
       responses:
         200:
           description: Record updated

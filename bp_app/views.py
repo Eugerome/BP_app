@@ -49,10 +49,10 @@ class BP_views:
 
     @view_config(route_name="get_record", request_method="GET")
     def get_record(self):
-        """Retrieve record based on uid."""
-        uid = self.request.matchdict['uid']
-        # shouldn't be any duplicate uid since primary key
-        record = DBSession.query(Record).filter_by(uid=uid).first()
+        """Retrieve record based on id."""
+        id = self.request.matchdict['id']
+        # shouldn't be any duplicate id since primary key
+        record = DBSession.query(Record).filter_by(id=id).first()
         if record:
             return record.to_dict()
         return {"success": False}
@@ -74,16 +74,16 @@ class BP_views:
 
     @view_config(route_name="update_record", request_method="PUT")
     def update_record(self):
-        """Update record based on uid."""
+        """Update record based on id."""
         controls = self.request.POST.items()
         try:
             form_dict = self.record_form.validate(controls)
         except deform.ValidationFailure as e:
             # Form is NOT valid
             return {"error": "failed to validate"}
-        uid = self.request.matchdict['uid']
-        # shouldn't be any duplicate uid since primary key
-        record = DBSession.query(Record).filter_by(uid=uid).first()
+        id = self.request.matchdict['id']
+        # shouldn't be any duplicate id since primary key
+        record = DBSession.query(Record).filter_by(id=id).first()
         if record:
             for key, value in form_dict.items():
                 setattr(record, key, value)
@@ -93,10 +93,10 @@ class BP_views:
 
     @view_config(route_name="delete_record", request_method="DELETE")
     def delete_record(self):
-        """Delete record based on uid."""
-        uid = self.request.matchdict['uid']
-        # shouldn't be any duplicate uid since primary key
-        record = DBSession.query(Record).filter_by(uid=uid).first()
+        """Delete record based on id."""
+        id = self.request.matchdict['id']
+        # shouldn't be any duplicate id since primary key
+        record = DBSession.query(Record).filter_by(id=id).first()
         if record:
             with transaction.manager:
                 DBSession.delete(record)
