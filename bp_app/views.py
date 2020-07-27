@@ -29,13 +29,18 @@ class BpApiViews:
     def return_records(self):  # pylint: disable=R0201
         """Returns all records in the database."""
         logger.info("Return records")
-        records = DBSession.query(Record).all()
-        if records:
-            records_json = []
-            for record in records:
-                records_json.append(record.to_dict())
-            return records_json
-        return {"success": False}
+        if self.request.params:
+            logger.info("Searching records by params")
+
+        else:
+            logger.info("Returns all records")
+            records = DBSession.query(Record).all()
+            if records:
+                records_json = []
+                for record in records:
+                    records_json.append(record.to_dict())
+                return records_json
+        return Response(status=204)
 
     @view_config(route_name="add_record", request_method="POST")
     def add_record(self):

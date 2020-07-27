@@ -21,6 +21,19 @@ paths:
   /records:
     get:
       summary: Retrieve all records
+      parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date-time
+            example: "2017-07-20T17:32:28Z"
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date-time
+            example: "2017-07-20T17:32:28Z"
       responses:
         200:
           description: All records returned
@@ -30,7 +43,6 @@ paths:
           description: Bad Request
 
   /records/add:
-
     post:
       summary: Create a blood pressure record
       requestBody:
@@ -158,4 +170,3 @@ components:
           minLength: 1
           maxLength: 100
           example: Had a espresso one hour prior
-
