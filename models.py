@@ -25,7 +25,6 @@ DBSession = scoped_session(sessionmaker())
 register(DBSession)
 Base = declarative_base()
 
-
 class Record(Base):
     __tablename__ = 'Records'
     id = Column(Integer, primary_key=True)
