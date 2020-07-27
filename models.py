@@ -29,7 +29,7 @@ Base = declarative_base()
 class Record(Base):
     __tablename__ = 'Records'
     id = Column(Integer, primary_key=True)
-    timestamp = Column(DateTime, unique=True, default=datetime.utcnow)
+    timestamp = Column(DateTime)
     bp_upper = Column(Integer)
     bp_lower = Column(Integer)
     notes = Column(Text)
