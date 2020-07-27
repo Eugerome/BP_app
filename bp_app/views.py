@@ -36,7 +36,7 @@ class BP_views:
             return records_json
         return {"success": False}
 
-    @view_config(route_name="add_record", request_method="POST", openapi=True)
+    @view_config(route_name="add_record", request_method="POST")
     def add_record(self):
         """Verifies post form and saves record to database."""
         form_json = self.request.json
