@@ -24,7 +24,7 @@ class Record(Base):
     """Record database."""
 
     __tablename__ = "Records"
-    id = Column(Integer, primary_key=True)
+    record_id = Column(Integer, primary_key=True)
     timestamp = Column(DateTime)
     bp_upper = Column(Integer)
     bp_lower = Column(Integer)
@@ -59,7 +59,7 @@ class Record(Base):
     def to_dict(self):
         """Returns instance as dict."""
         return {
-            "id": self.id,
+            "record_id": self.record_id,
             "timestamp": self.timestamp.isoformat(),
             "bp_upper": self.bp_upper,
             "bp_lower": self.bp_lower,

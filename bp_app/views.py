@@ -54,21 +54,21 @@ class BpApiViews:
 
     @view_config(route_name="operate_record", request_method="GET")
     def get_record(self):
-        """Retrieve record based on id."""
-        record_id = self.request.matchdict["id"]
-        # shouldn't be any duplicate id since primary key
-        record = DBSession.query(Record).filter_by(id=record_id).first()
+        """Retrieve record based on record_id."""
+        record_id = self.request.matchdict["record_id"]
+        # shouldn't be any duplicate record_id since primary key
+        record = DBSession.query(Record).filter_by(record_id=record_id).first()
         if record:
             return record.to_dict()
         return Response(status=404)
 
     @view_config(route_name="operate_record", request_method="PUT")
     def update_record(self):
-        """Update record based on id."""
+        """Update record based on record_id."""
         form_json = self.request.json
-        record_id = self.request.matchdict["id"]
-        # shouldn't be any duplicate id since primary key
-        record = DBSession.query(Record).filter_by(id=record_id).first()
+        record_id = self.request.matchdict["record_id"]
+        # shouldn't be any duplicate record_id since primary key
+        record = DBSession.query(Record).filter_by(record_id=record_id).first()
         if record:
             for key, value in form_json.items():
                 setattr(record, key, value)
@@ -78,10 +78,10 @@ class BpApiViews:
 
     @view_config(route_name="operate_record", request_method="DELETE")
     def delete_record(self):
-        """Delete record based on id."""
-        record_id = self.request.matchdict["id"]
-        # shouldn't be any duplicate id since primary key
-        record = DBSession.query(Record).filter_by(id=record_id).first()
+        """Delete record based on record_id."""
+        record_id = self.request.matchdict["record_id"]
+        # shouldn't be any duplicate record_id since primary key
+        record = DBSession.query(Record).filter_by(record_id=record_id).first()
         if record:
             with transaction.manager:
                 DBSession.delete(record)
