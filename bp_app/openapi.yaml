@@ -18,3 +18,70 @@ paths:
         400:
           description: Bad Request
 
+  /records:
+    get:
+      summary: Retrieve all records
+      responses:
+        200:
+          description: All records returned
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+
+  /records/{uid}:
+    get:
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      summary: Retrieve record based on uid
+      responses:
+        200:
+          description: Record returned
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+    delete:
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      summary: Delete record based on uid
+      responses:
+        200:
+          description: Record deleted
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+    put:
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      summary: Update record based on uid
+      responses:
+        200:
+          description: Record updated
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+
