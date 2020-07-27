@@ -18,3 +18,124 @@ paths:
         400:
           description: Bad Request
 
+  /records:
+    get:
+      summary: Retrieve all records
+      responses:
+        200:
+          description: All records returned
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+
+  /records/add:
+
+    post:
+      summary: Create a blood pressure record
+      requestBody:
+        required: true
+        description: A record to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Record'
+      responses:
+        200:
+          description: Record created
+        400:
+          description: Bad Request
+
+  /records/{id}:
+    get:
+      summary: Retrieve record based on id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Record returned
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+    delete:
+      summary: Delete record based on id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Record deleted
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+    put:
+      summary: Update record based on id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Record updated
+          content:
+            text/html: {}
+        400:
+          description: Bad Request
+
+components:
+
+  schemas:
+
+    Record:
+      type: object
+      required:
+        - bp_upper
+        - bp_lower
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 0
+          example: 2
+        bp_upper:
+          type: integer
+          format: int32
+          minimum: 70
+          maximum: 370
+          example: 120
+        bp_lower:
+          type: integer
+          format: int32
+          minimum: 20
+          maximum: 370
+          example: 60
+        timestamp:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        notes:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Had a espresso one hour prior
+
