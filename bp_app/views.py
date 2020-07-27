@@ -4,6 +4,7 @@ import logging
 import transaction
 
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.response import Response
 
 from pyramid.view import (
     view_config,
@@ -44,7 +45,7 @@ class BP_views:
             record = Record.from_dict(form_json)
             DBSession.add(record)
             transaction.commit()
-        return {"success": True}
+        return Response(status=201)
         
     @view_config(route_name="operate_record", request_method="GET")
     def get_record(self):
@@ -54,7 +55,7 @@ class BP_views:
         record = DBSession.query(Record).filter_by(id=id).first()
         if record:
             return record.to_dict()
-        return {"success": False}
+        return Response(404)
 
     @view_config(route_name="operate_record", request_method="PUT")
     def update_record(self):
@@ -67,8 +68,8 @@ class BP_views:
             for key, value in form_json.items():
                 setattr(record, key, value)
             transaction.commit()
-            return {"success": True}
-        return {"success": False}
+            return Response(status=200)
+        return self.add_record()
 
     @view_config(route_name="operate_record", request_method="DELETE")
     def delete_record(self):
@@ -80,5 +81,5 @@ class BP_views:
             with transaction.manager:
                 DBSession.delete(record)
                 transaction.commit()
-            return {"success": True}
-        return {"success": False}
+            return Response(status=202)
+        return Response(status=204)
