@@ -85,3 +85,37 @@ paths:
         400:
           description: Bad Request
 
+components:
+
+  schemas:
+
+    Record:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          minimum: 0
+          example: 2
+        bp_upper:
+          type: integer
+          format: int32
+          minimum: 70
+          maximum: 300
+          example: 120
+        bp_lower:
+          type: integer
+          format: int32
+          minimum: 20
+          maximum: 150
+          example: 60
+        timestamp:
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        notes:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Had a espresso one hour prior
+
