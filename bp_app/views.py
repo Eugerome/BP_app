@@ -55,7 +55,7 @@ class BpApiViews:
         record = DBSession.query(Record).filter_by(id=record_id).first()
         if record:
             return record.to_dict()
-        return Response(404)
+        return Response(status=404)
 
     @view_config(route_name="operate_record", request_method="PUT")
     def update_record(self):
