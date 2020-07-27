@@ -29,6 +29,9 @@ class Record(Base):
     bp_upper = Column(Integer)
     bp_lower = Column(Integer)
     notes = Column(Text)
+    search_queries = ["start_date", "end_date"]
+    min_date = dateutil.parser.parse("1970-01-01T00:00:00Z")
+    max_date = dateutil.parser.parse("2070-01-01T00:00:00Z")
 
     def __init__(
         self,
