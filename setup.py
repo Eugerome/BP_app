@@ -15,6 +15,7 @@ requires = [
 dev_requires = [
     "black",
     "pre-commit",
+    "pylint",
     "pyramid_debugtoolbar",
     "pytest",
     "pyramid_tm",
