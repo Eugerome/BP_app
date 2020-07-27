@@ -24,11 +24,14 @@ class Record(Base):
     """Record database."""
 
     __tablename__ = "Records"
-    id = Column(Integer, primary_key=True)
+    record_id = Column(Integer, primary_key=True)
     timestamp = Column(DateTime)
     bp_upper = Column(Integer)
     bp_lower = Column(Integer)
     notes = Column(Text)
+    search_queries = ["start_date", "end_date"]
+    min_date = dateutil.parser.parse("1970-01-01T00:00:00Z")
+    max_date = dateutil.parser.parse("2070-01-01T00:00:00Z")
 
     def __init__(
         self,
@@ -59,7 +62,7 @@ class Record(Base):
     def to_dict(self):
         """Returns instance as dict."""
         return {
-            "id": self.id,
+            "record_id": self.record_id,
             "timestamp": self.timestamp.isoformat(),
             "bp_upper": self.bp_upper,
             "bp_lower": self.bp_lower,
