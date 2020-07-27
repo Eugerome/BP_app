@@ -1,3 +1,5 @@
+"""Install required dependencies."""
+
 from setuptools import setup
 
 # List of dependencies installed via `pip install -e .`
