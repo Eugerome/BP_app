@@ -1,4 +1,5 @@
 from datetime import datetime
+import dateutil.parser
 import json
 import random
 
@@ -43,8 +44,11 @@ class Record(Base):
     @classmethod
     def from_dict(cls, form_dict):
         """Create an instance from a dict."""
+        timestamp = form_dict.get("timestamp", datetime.utcnow())
+        if isinstance(timestamp, str):
+            timestamp = dateutil.parser.parse(timestamp)
         return cls(
-            timestamp=form_dict.get("timestamp", datetime.utcnow()),
+            timestamp=timestamp,
             bp_upper=int(form_dict.get("bp_upper", 0)),
             bp_lower=int(form_dict.get("bp_lower", 0)),
             notes=str(form_dict.get("notes", ""))

@@ -4,6 +4,7 @@ from setuptools import setup
 # by virtue of the Setuptools `install_requires` value below.
 requires = [
     'deform',
+    "python-dateutil",
     'pyramid',
     "pyramid_jwt",
     'pyramid_chameleon',
@@ -25,7 +26,7 @@ setup(
     name='bp_app',
     install_requires=requires,
     extras_require={
-        'dev': dev_requires,
+        'development': dev_requires,
     },
     entry_points={
         'paste.app_factory': [

@@ -13,16 +13,17 @@ Spin up a docker container with
 Access Swagger UI at http://localhost:6543/docs
 
 #### Linux
-Make sure python 3.8 and pip and venv are installed
+Make sure python and virtualenv are installed
 
 Clone the repository
 
 In terminal
 ```
 cd bp_app
-python3 -m venv .
-pip3 install -e ".[dev]"
-python3 bp_app/initialize_db.py development.ini
+virtualenv -p python3.8 .
+source bin/activate
+pip3 install -e .[development]
+python bp_app/initialize_db.py development.ini
 pserve development.ini
 ```
 
