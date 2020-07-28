@@ -14,7 +14,7 @@ from models import DBSession, Record
 logger = logging.getLogger(__name__)
 
 # pylint: disable=E1101
-@view_defaults(renderer="json")
+@view_defaults(renderer="json", openapi=True)
 class BpApiViews:
     """API views that generate/display records."""
 
@@ -59,15 +59,19 @@ class BpApiViews:
             return records_json
         return Response(status=204)
 
-    @view_config(route_name="add_record", request_method="POST")
+    @view_config(route_name="records", request_method="POST")
     def add_record(self):
         """Verifies post form and saves record to database."""
         form_json = self.request.json
         with transaction.manager:
             record = Record.from_dict(form_json)
             DBSession.add(record)
+            # refresh record before commit to send creted Record in response
+            DBSession.flush()
+            DBSession.refresh(record)
+            response_json = record.to_json()
             transaction.commit()
-        return Response(status=201)
+        return Response(status=201, json=response_json)
 
     @view_config(route_name="operate_record", request_method="GET")
     def get_record(self):
@@ -91,8 +95,9 @@ class BpApiViews:
                 if key == "timestamp":
                     value = dateutil.parser.parse(value)
                 setattr(record, key, value)
+            response_json = record.to_json()
             transaction.commit()
-            return Response(status=200)
+            return Response(status=200, json=response_json)
         return self.add_record()
 
     @view_config(route_name="operate_record", request_method="DELETE")
@@ -102,8 +107,9 @@ class BpApiViews:
         # shouldn't be any duplicate record_id since primary key
         record = DBSession.query(Record).filter_by(record_id=record_id).first()
         if record:
+            response_json = record.to_json()
             with transaction.manager:
                 DBSession.delete(record)
                 transaction.commit()
-            return Response(status=202)
+            return Response(status=202, json=response_json)
         return Response(status=204)
