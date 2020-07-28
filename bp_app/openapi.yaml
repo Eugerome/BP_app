@@ -55,6 +55,8 @@ paths:
       responses:
         201:
           description: Record created
+          content:
+            application/json: {}
         400:
           description: Bad Request
 
@@ -92,7 +94,7 @@ paths:
             minimum: 1
       responses:
         202:
-          description: Record deleted
+          description: Record deleted, returns Record
           content:
             application/json: {}
         204:
@@ -114,20 +116,20 @@ paths:
             minimum: 1
       requestBody:
         required: true
-        description: A record to create
+        description: Updated record data
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Record'
       responses:
         200:
-          description: Record updated
+          description: Record successfully updated, returns Record
           content:
-            text/html: {}
+            application/json: {}
         201:
-          description: No record found, new one created with record_id X
+          description: No record found, new one created, returns Record
           content:
-            text/html: {}
+            application/json: {}
         400:
           description: Bad Request
 

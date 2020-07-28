@@ -65,9 +65,10 @@ class BpApiViews:
         form_json = self.request.json
         with transaction.manager:
             record = Record.from_dict(form_json)
+            response_json = record.to_json()
             DBSession.add(record)
             transaction.commit()
-        return Response(status=201)
+        return Response(status=201, json=response_json)
 
     @view_config(route_name="operate_record", request_method="GET")
     def get_record(self):
@@ -91,8 +92,9 @@ class BpApiViews:
                 if key == "timestamp":
                     value = dateutil.parser.parse(value)
                 setattr(record, key, value)
+            response_json = record.to_json()
             transaction.commit()
-            return Response(status=200)
+            return Response(status=200, json=response_json)
         return self.add_record()
 
     @view_config(route_name="operate_record", request_method="DELETE")
@@ -102,8 +104,9 @@ class BpApiViews:
         # shouldn't be any duplicate record_id since primary key
         record = DBSession.query(Record).filter_by(record_id=record_id).first()
         if record:
+            response_json = record.to_json()
             with transaction.manager:
                 DBSession.delete(record)
                 transaction.commit()
-            return Response(status=202)
+            return Response(status=202, json=response_json)
         return Response(status=204)
