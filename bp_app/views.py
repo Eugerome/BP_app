@@ -3,7 +3,6 @@
 import logging
 import transaction
 
-from datetime import datetime
 import dateutil.parser
 
 from pyramid.response import Response

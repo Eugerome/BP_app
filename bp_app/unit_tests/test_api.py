@@ -1,6 +1,8 @@
-import transaction
-import unittest
+"""Test Api views."""
+
 import json
+import unittest
+import transaction
 
 from unittest import mock
 from webtest import TestApp
@@ -16,7 +18,7 @@ from bp_app import main
 
 def _initTestingDB():
     from sqlalchemy import create_engine
-    from .models import DBSession, Record, Base
+    from models import DBSession, Record, Base
 
     engine = create_engine("sqlite://")
     Base.metadata.create_all(engine)
@@ -31,7 +33,11 @@ class ApiTests(unittest.TestCase):
     def setUp(self):
         """Start up the app so that tests can send requests to it."""
         config = get_appsettings("development.ini")
+        self.session = _initTestingDB()
         self.testapp = TestApp(main({}, **config))
+
+    def tearDown(self):
+        self.session.remove()
 
     def test_home(self):
         """Test home view."""
