@@ -14,7 +14,7 @@ from models import DBSession, Record
 logger = logging.getLogger(__name__)
 
 # pylint: disable=E1101
-@view_defaults(renderer="json")
+@view_defaults(renderer="json", openapi=True)
 class BpApiViews:
     """API views that generate/display records."""
 
