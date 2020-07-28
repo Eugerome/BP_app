@@ -3,10 +3,6 @@ info:
   version: "0.1.0"
   title: BP API
 
-servers:
-  - url: http://localhost:6543
-    description: Pyramid BP app
-
 paths:
   /:
     get:
@@ -39,6 +35,8 @@ paths:
           description: All records returned
           content:
             application/json: {}
+        204:
+          description: No records found
         400:
           description: Bad Request
     post:
@@ -97,8 +95,6 @@ paths:
             application/json: {}
         204:
           description: No Record found
-          content:
-            text/html: {}
         400:
           description: Bad Request
     put:
