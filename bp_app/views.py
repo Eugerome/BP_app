@@ -48,8 +48,10 @@ class BpApiViews:
             end_date = self.request.params.get("end_date", Record.max_date)
             if isinstance(end_date, str):
                 end_date = dateutil.parser.parse(end_date)
-            records = DBSession.query(Record).filter(
-                Record.timestamp.between(start_date, end_date)
+            records = (
+                DBSession.query(Record)
+                .filter(Record.timestamp.between(start_date, end_date))
+                .all()
             )
         if records:
             records_json = []
@@ -87,6 +89,8 @@ class BpApiViews:
         record = DBSession.query(Record).filter_by(record_id=record_id).first()
         if record:
             for key, value in form_json.items():
+                if key == "timestamp":
+                    value = dateutil.parser.parse(value)
                 setattr(record, key, value)
             transaction.commit()
             return Response(status=200)
