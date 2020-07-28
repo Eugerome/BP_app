@@ -65,8 +65,11 @@ class BpApiViews:
         form_json = self.request.json
         with transaction.manager:
             record = Record.from_dict(form_json)
-            response_json = record.to_json()
             DBSession.add(record)
+            # refresh record before commit to send creted Record in response
+            DBSession.flush()
+            DBSession.refresh(record)
+            response_json = record.to_json()
             transaction.commit()
         return Response(status=201, json=response_json)
 
