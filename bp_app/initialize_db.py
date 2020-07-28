@@ -2,7 +2,10 @@
 
 import os
 import sys
+import random
+from datetime import datetime, timedelta
 import transaction
+
 
 from sqlalchemy import engine_from_config
 
@@ -29,8 +32,13 @@ def main(argv=sys.argv):  # pylint: disable=W0102
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     with transaction.manager:
-        model = Record()
-        DBSession.add(model)  # pylint: disable=E1101
+        current_time = datetime.utcnow()
+        for i in range(14):
+            record = Record()
+            record.timestamp = current_time - timedelta(days=i)
+            record.bp_upper = random.randint(100, 160)
+            record.bp_lower = random.randint(50, 80)
+            DBSession.add(record)  # pylint: disable=E1101
 
 
 if __name__ == "__main__":
