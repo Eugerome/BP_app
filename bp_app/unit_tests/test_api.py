@@ -2,41 +2,41 @@
 
 import json
 import unittest
+from datetime import datetime
 import transaction
 
-from unittest import mock
 from webtest import TestApp
 
+from pyramid.paster import get_app
 
-from datetime import datetime
-
-from pyramid import testing
-from pyramid.paster import get_appsettings
+from sqlalchemy import create_engine
+from models import DBSession, Record, Base
 
 from bp_app import main
 
 
-def _initTestingDB():
-    from sqlalchemy import create_engine
-    from models import DBSession, Record, Base
-
+def init_test_db():
+    """Create testing database."""
     engine = create_engine("sqlite://")
     Base.metadata.create_all(engine)
     DBSession.configure(bind=engine)
     with transaction.manager:
         model = Record(timestamp=datetime.utcnow(), bp_upper=120, bp_lower=70, notes="")
-        DBSession.add(model)
+        DBSession.add(model)  # pylint: disable=E1101
     return DBSession
 
 
 class ApiTests(unittest.TestCase):
+    """Tests for api views."""
+
     def setUp(self):
         """Start up the app so that tests can send requests to it."""
-        config = get_appsettings("development.ini")
-        self.session = _initTestingDB()
-        self.testapp = TestApp(main({}, **config))
+        app = get_app("development.ini")
+        self.session = init_test_db()
+        self.testapp = TestApp(app)
 
     def tearDown(self):
+        """Tear down the test database."""
         self.session.remove()
 
     def test_home(self):
@@ -50,7 +50,7 @@ class ApiTests(unittest.TestCase):
         response = self.testapp.get("/records/1", status=200)
         self.assertTrue(isinstance(response.json, dict))
         # check record that does not exist
-        response = self.testapp.get("/records/9999", status=404)
+        self.testapp.get("/records/9999", status=404)
         # check non integer?
 
     def test_get_all_records(self):
@@ -63,7 +63,7 @@ class ApiTests(unittest.TestCase):
         payload = json.dumps(
             {"timestamp": "2001-02-02", "bp_upper": 100, "bp_lower": 10}
         )
-        response = self.testapp.post("/records/add", params=payload, status=201)
+        self.testapp.post("/records/add", params=payload, status=201)
         # test bad payload?
 
     def test_update_record(self):
@@ -79,17 +79,13 @@ class ApiTests(unittest.TestCase):
         payload = json.dumps(
             {"timestamp": "2001-02-02", "bp_upper": 300, "bp_lower": 10}
         )
-        response = self.testapp.put("/records/9999", params=payload, status=201)
+        self.testapp.put("/records/9999", params=payload, status=201)
         # test bad payload?
 
     def test_get_search_records(self):
         """Test return_records with search query."""
         date = datetime.utcnow()
         # test return records due to end_date
-        response = self.testapp.get(
-            "/records?end_date={}".format(date.isoformat()), status=200
-        )
+        self.testapp.get("/records?end_date={}".format(date.isoformat()), status=200)
         # test return no records due to start date
-        response = self.testapp.get(
-            "/records?start_date={}".format(date.isoformat()), status=204
-        )
+        self.testapp.get("/records?start_date={}".format(date.isoformat()), status=204)
