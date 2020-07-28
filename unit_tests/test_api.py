@@ -60,32 +60,45 @@ class ApiTests(unittest.TestCase):
 
     def test_add_record(self):
         """Test adding a record."""
-        payload = json.dumps(
-            {"timestamp": "2001-02-02", "bp_upper": 100, "bp_lower": 10}
-        )
-        self.testapp.post("/records/add", params=payload, status=201)
-        # test bad payload?
+        # test successful
+        payload = {
+            "timestamp": "2001-02-02T17:11:20.919467Z",
+            "bp_upper": 100,
+            "bp_lower": 40,
+        }
+        self.testapp.post_json("/records", payload, status=201)
+        # test bad format
+        payload = {"timestamp": "2001-02-02", "bp_upper": 100, "bp_lower": 40}
+        self.testapp.post_json("/records", payload, status=400)
 
     def test_update_record(self):
         """Test modifying a record."""
         # testing updating a record
-        payload = json.dumps(
-            {"timestamp": "2001-02-02", "bp_upper": 300, "bp_lower": 10}
-        )
-        response = self.testapp.put("/records/1", params=payload, status=200)
+        payload = {
+            "timestamp": "2001-02-02T17:11:20.919467Z",
+            "bp_upper": 300,
+            "bp_lower": 40,
+        }
+        response = self.testapp.put_json("/records/1", payload, status=200)
         response = self.testapp.get("/records/1", status=200)
         self.assertEqual(300, response.json.get("bp_upper"))
         # testing updating a record that does not exist
-        payload = json.dumps(
-            {"timestamp": "2001-02-02", "bp_upper": 300, "bp_lower": 10}
-        )
-        self.testapp.put("/records/9999", params=payload, status=201)
-        # test bad payload?
+        self.testapp.put_json("/records/9999", payload, status=201)
+        # test bad payload
+        payload = {"timestamp": "2001-02-02", "bp_upper": 100, "bp_lower": 40}
+        self.testapp.put_json("/records/1", payload, status=400)
+
+    def test_delete_record(self):
+        """Test record deletion."""
+        # test deleting existing record
+        self.testapp.delete("/records/1", status=202)
+        # test deleting non-existing record
+        self.testapp.delete("/records/1", status=204)
 
     def test_get_search_records(self):
         """Test return_records with search query."""
         date = datetime.utcnow()
         # test return records due to end_date
-        self.testapp.get("/records?end_date={}".format(date.isoformat()), status=200)
+        self.testapp.get("/records?end_date={}Z".format(date.isoformat()), status=200)
         # test return no records due to start date
-        self.testapp.get("/records?start_date={}".format(date.isoformat()), status=204)
+        self.testapp.get("/records?start_date={}Z".format(date.isoformat()), status=204)
