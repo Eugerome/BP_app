@@ -41,8 +41,6 @@ paths:
             application/json: {}
         400:
           description: Bad Request
-
-  /records/add:
     post:
       summary: Create a blood pressure record
       requestBody:

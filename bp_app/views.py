@@ -59,7 +59,7 @@ class BpApiViews:
             return records_json
         return Response(status=204)
 
-    @view_config(route_name="add_record", request_method="POST")
+    @view_config(route_name="records", request_method="POST")
     def add_record(self):
         """Verifies post form and saves record to database."""
         form_json = self.request.json
