@@ -102,3 +102,5 @@ class ApiTests(unittest.TestCase):
         self.testapp.get("/records?end_date={}Z".format(date.isoformat()), status=200)
         # test return no records due to start date
         self.testapp.get("/records?start_date={}Z".format(date.isoformat()), status=204)
+        # test bad date string
+        self.testapp.get("/records?start_date=AAAAZ", status=400)
