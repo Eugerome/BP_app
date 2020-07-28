@@ -4,6 +4,9 @@ Input records which get saved to database.
 
 ### Getting Started
 
+!!! Currently openapi validation not working due to bug
+https://github.com/Pylons/pyramid_openapi3/issues/87
+
 #### Docker
 Clone the repository.
 

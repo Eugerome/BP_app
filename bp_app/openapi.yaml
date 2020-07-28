@@ -94,7 +94,7 @@ paths:
         202:
           description: Record deleted
           content:
-            text/html: {}
+            application/json: {}
         204:
           description: No Record found
           content:
