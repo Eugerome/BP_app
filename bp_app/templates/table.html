@@ -4,8 +4,10 @@
     <title>Convert JSON Data to HTML Table</title>
 </head>
 <body>
-    <input type="button" onclick="CreateRecordTable()" value="Create Table From JSON" />
-    <p id="showData"></p>
+    <input type="button" onclick="CreateRecordTable()" value="Refresh Records" />
+    <div>
+        <p id="showData"></p>
+    </div>
 </body>
 
 <script>
@@ -13,11 +15,9 @@
 
         // Call Records Endpoint
         let response = await fetch("./records");
-        if (response.ok) { // if HTTP-status is 200-299
-            // get the response body (the method explained below)
-            let myRecords = await response.json();
-          } else {
-            alert("HTTP-Error: " + response.status);
+
+
+        let myRecords = await response.json()
         // EXTRACT VALUE FOR HTML HEADER.
         var col = [];
         for (var i = 0; i < myRecords.length; i++) {
