@@ -49,9 +49,8 @@ class Record(Base):
     @classmethod
     def from_dict(cls, form_dict):
         """Create an instance from a dict."""
-        timestamp = form_dict.get("timestamp", datetime.utcnow())
-        if isinstance(timestamp, str):
-            timestamp = dateutil.parser.parse(timestamp)
+        timestamp = form_dict.get("timestamp")
+        timestamp = Record.get_timestamp(timestamp)
         return cls(
             timestamp=timestamp,
             bp_upper=int(form_dict.get("bp_upper", 0)),
@@ -59,11 +58,19 @@ class Record(Base):
             notes=str(form_dict.get("notes", "")),
         )
 
+    @staticmethod
+    def get_timestamp(timestamp=None):
+        if not timestamp:
+            timestamp = datetime.utcnow()
+        if not isinstance(timestamp, str):
+            timestamp = timestamp.isoformat(timespec="seconds")
+        return dateutil.parser.parse(timestamp)
+
     def to_dict(self):
         """Returns instance as dict."""
         return {
             "record_id": self.record_id,
-            "timestamp": self.timestamp.isoformat(),
+            "timestamp": self.timestamp.isoformat(timespec="seconds"),
             "bp_upper": self.bp_upper,
             "bp_lower": self.bp_lower,
             "notes": self.notes,

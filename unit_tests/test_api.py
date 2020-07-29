@@ -2,7 +2,7 @@
 
 import json
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 import transaction
 
 from webtest import TestApp
@@ -97,10 +97,11 @@ class ApiTests(unittest.TestCase):
 
     def test_get_search_records(self):
         """Test return_records with search query."""
-        date = datetime.utcnow()
+        date = datetime.utcnow() + timedelta(hours=1)
+        date = Record.get_timestamp(date).isoformat(timespec="seconds")
         # test return records due to end_date
-        self.testapp.get("/records?end_date={}Z".format(date.isoformat()), status=200)
+        self.testapp.get("/records?end_date={}Z".format(date), status=200)
         # test return no records due to start date
-        self.testapp.get("/records?start_date={}Z".format(date.isoformat()), status=204)
+        self.testapp.get("/records?start_date={}Z".format(date), status=204)
         # test bad date string
         self.testapp.get("/records?start_date=AAAAZ", status=400)
