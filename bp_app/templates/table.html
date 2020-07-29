@@ -5,12 +5,13 @@
 </head>
 <body>
     <input type="button" onclick="CreateRecordTable()" value="Refresh Records" />
-    <div>
-        <p id="showData"></p>
-    </div>
+    <p id="showData"></p>
 </body>
 
 <script>
+    window.onload = function() {
+        CreateRecordTable();
+      };
     async function CreateRecordTable() {
 
         // Call Records Endpoint
