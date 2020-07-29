@@ -1,11 +1,13 @@
 """BP api views."""
 
 import logging
+import os
 import transaction
 
 import dateutil.parser
 
 from pyramid.response import Response
+from pyramid.response import FileResponse
 
 from pyramid.view import view_config, view_defaults
 
@@ -113,3 +115,17 @@ class BpApiViews:
                 transaction.commit()
             return Response(status=202, json=response_json)
         return Response(status=204)
+
+
+class BpUserViews:
+    """API views that generate/display records."""
+
+    def __init__(self, request):
+        self.request = request
+
+    @view_config(route_name="record_table")
+    def get_records(self):  # pylint: disable=R0201
+        """Simple method for debugging issues."""
+        logger.info("Table view")
+        html_path = os.path.join(os.path.dirname(__file__), "templates/table.html")
+        return FileResponse(html_path, content_type="text/html")
