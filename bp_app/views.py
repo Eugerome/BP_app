@@ -42,11 +42,9 @@ class BpApiViews:
                     return Response(status=400)
             logger.info("Processing date queries")
             start_date = self.request.params.get("start_date", Record.min_date)
-            if isinstance(start_date, str):
-                start_date = dateutil.parser.parse(start_date)
+            start_date = Record.get_timestamp(start_date)
             end_date = self.request.params.get("end_date", Record.max_date)
-            if isinstance(end_date, str):
-                end_date = dateutil.parser.parse(end_date)
+            end_date = Record.get_timestamp(end_date)
             records = (
                 DBSession.query(Record)
                 .filter(Record.timestamp.between(start_date, end_date))
@@ -93,7 +91,7 @@ class BpApiViews:
         if record:
             for key, value in form_json.items():
                 if key == "timestamp":
-                    value = dateutil.parser.parse(value)
+                    value = Record.get_timestamp(value)
                 setattr(record, key, value)
             response_json = record.to_json()
             transaction.commit()
