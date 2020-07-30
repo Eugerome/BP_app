@@ -36,7 +36,7 @@ async function AddRecord () {
     if (typeof timestamp === 'string' && timestamp != "") {
         payload["timestamp"] = timestamp;
     }
-    if (typeof notes === 'string' && notes != "" && ti) {
+    if (typeof notes === 'string' && notes != "") {
         payload["notes"] = notes;
     }
     // post payload
