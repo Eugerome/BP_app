@@ -3,15 +3,15 @@ window.onload = function() {
   };
 
 document.getElementById("displayAddRecord").addEventListener("click", function(){
-    document.querySelector(".input-popup").style.display = "flex";
+    document.querySelector(".blocker").style.display = "flex";
 })
 
 document.getElementById("closeAddRecord").addEventListener("click", function(){
-    document.querySelector(".input-popup").style.display = "none";
+    document.querySelector(".blocker").style.display = "none";
 })
-
+// add a close button later
 document.querySelector(".close").addEventListener("click", function(){
-    document.querySelector(".input-popup").style.display = "none";
+    document.querySelector(".blocker").style.display = "none";
 })
 async function CreateRecordTable() {
 

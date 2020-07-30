@@ -10,9 +10,12 @@
     <input type="button" onclick="CreateRecordTable()" value="Refresh Records" />
     <p id="showData"></p>
 
-    <div class="input-popup">
-        <div class="popup-content">
-            <p>Hello</p>
+    <div class="blocker">
+        <div class="popup">
+            <input type="number" class="recordInput" placeholder="120" min="70" max="370"></input>
+            <input type="number" class="recordInput" placeholder="70" min="20" max="370"/>
+            <input type="datetime-local" class="recordInput"/>
+            <input type="text" class="recordInput" placeholder="My Notes"/>
             <a href="#" class="button" id="closeAddRecord">Add Record</a>
         </div>
     </div>
