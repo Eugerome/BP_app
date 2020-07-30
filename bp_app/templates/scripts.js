@@ -13,6 +13,43 @@ document.getElementById("closeAddRecord").addEventListener("click", function(){
 document.querySelector(".close").addEventListener("click", function(){
     document.querySelector(".blocker").style.display = "none";
 })
+
+async function AddRecord () {
+    // get input
+    var bpUpper = document.getElementById("bpUpper").value;
+    var bpLower = document.getElementById("bpLower").value;
+    var timestamp = document.getElementById("timestamp").value;
+    var notes = document.getElementById("notes").value;
+    // validate that bp was given
+    if (bpUpper === "", bpLower === "") {
+        alert("Please fill in Blood Pressure Fields");
+        return false;
+    }
+    var bpUpper = parseInt(bpUpper, 10)
+    var bpLower = parseInt(bpLower, 10)
+    // create payload
+    var payload = {
+        "bp_upper" : bpUpper,
+        "bp_lower" : bpLower
+    }
+    // add timestamp and note if provided, otherwise don't include in payload
+    if (typeof timestamp === 'string' && timestamp != "") {
+        payload["timestamp"] = timestamp;
+    }
+    if (typeof notes === 'string' && notes != "" && ti) {
+        payload["notes"] = notes;
+    }
+    // post payload
+    let response = await fetch("./records", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(payload)
+    })
+}
+
 async function CreateRecordTable() {
 
     // Call Records Endpoint
