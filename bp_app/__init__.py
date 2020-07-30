@@ -18,10 +18,15 @@ def main(global_config, **settings):  # pylint: disable=W0613
 
     config = Configurator(settings=settings, root_factory="models.Root")
     config.include("pyramid_chameleon")
+    # api views
     config.add_route("home", "/")
     config.add_route("operate_record", "/records/{record_id}")
     config.add_route("records", "/records")
+    # user views
+    config.add_route("record_table", "/table")
     config.scan(".views")
+    # add static assets
+    config.add_static_view(name="static", path="bp_app:templates")
     # add openapi config
     config.include("pyramid_openapi3")
     config.pyramid_openapi3_spec(

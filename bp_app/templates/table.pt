@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Records</title>
+    <link rel="stylesheet" href="${request.static_url('bp_app:templates/style.css') }" />
+</head>
+<body>
+    <a href="#" class="button" id="displayAddRecord">Add Record</a>
+    <h3>Records:</h3>
+    <input type="button" onclick="CreateRecordTable()" value="Refresh Records" />
+    <p id="showData"></p>
+
+    <div class="blocker">
+        <div class="popup">
+            <input type="number" class="recordInput" id="bpUpper" placeholder="120" min="70" max="370"></input>
+            <input type="number" class="recordInput" id="bpLower" placeholder="70" min="20" max="370"/>
+            <input type="datetime-local" class="recordInput" id="timestamp"/>
+            <input type="text" class="recordInput" id="notes" placeholder="My Notes"/>
+            <input type="button" onclick="AddRecord()" class="button" id="closeAddRecord" value="Add Record"></input>
+        </div>
+    </div>
+</body>
+<script src="${request.static_url('bp_app:templates/scripts.js')}"></script>
+</html>
