@@ -2,8 +2,12 @@ window.onload = function() {
     CreateRecordTable();
   };
 
-document.getElementById("button").addEventListener("click", function(){
+document.getElementById("displayAddRecord").addEventListener("click", function(){
     document.querySelector(".input-popup").style.display = "flex";
+})
+
+document.getElementById("closeAddRecord").addEventListener("click", function(){
+    document.querySelector(".input-popup").style.display = "none";
 })
 
 document.querySelector(".close").addEventListener("click", function(){
