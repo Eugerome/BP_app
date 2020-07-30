@@ -25,6 +25,8 @@ def main(global_config, **settings):  # pylint: disable=W0613
     # user views
     config.add_route("record_table", "/table")
     config.scan(".views")
+    # add static assets
+    config.add_static_view(name="static", path="bp_app:templates")
     # add openapi config
     config.include("pyramid_openapi3")
     config.pyramid_openapi3_spec(

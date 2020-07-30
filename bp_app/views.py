@@ -121,9 +121,8 @@ class BpUserViews:
     def __init__(self, request):
         self.request = request
 
-    @view_config(route_name="record_table")
+    @view_config(route_name="record_table", renderer="./templates/table.pt")
     def get_records(self):  # pylint: disable=R0201
         """Simple method for debugging issues."""
         logger.info("Table view")
-        html_path = os.path.join(os.path.dirname(__file__), "templates/table.html")
-        return FileResponse(html_path, content_type="text/html")
+        return {}
