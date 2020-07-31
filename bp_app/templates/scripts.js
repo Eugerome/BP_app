@@ -77,6 +77,8 @@ async function CreateRecordTable() {
         }; // hide record_id and edit/delete headers
         tr.appendChild(th);
     }
+    //  get edit/delete block from html
+    const toolBox = document.querySelector(".toolBox");
     // ADD JSON DATA TO THE TABLE AS ROWS.
     for (var i = 0; i < myRecords.length; i++) {
 
@@ -90,8 +92,8 @@ async function CreateRecordTable() {
                     tabCell.style = "display:none"
                 }; // hide record_id
             } else {
-                // add edit image
-                tabCell.innerHTML = "<img src=./static/edit.png/><img src=./static/delete.png/>"
+                // add edit/delete image
+                tabCell.innerHTML = toolBox.outerHTML;
             }
         }
     }

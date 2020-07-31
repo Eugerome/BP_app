@@ -20,6 +20,12 @@
             <input type="button" onclick="AddRecord()" class="button" id="closeAddRecord" value="Add Record"/>
         </div>
     </div>
+    <div style="display:none">
+        <div class="toolBox">
+            <img class="editImg" src="./static/edit.png/">
+            <img class="deleteImg" src="./static/delete.png/">
+        </div>
+    </div>
 </body>
 <script src="${request.static_url('bp_app:templates/scripts.js')}"></script>
 </html>
