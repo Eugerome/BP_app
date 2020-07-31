@@ -42,10 +42,11 @@ body {
     height: 100%;
     left: 0;
     top: 0;
-    z-index: 10;
+    z-index: 1;
 }
 
 .popup {
+    display: block;
     height: 300px;
     width: 400px;
     background: #fff;
@@ -57,6 +58,13 @@ body {
     left: 50%;
     margin-top: -150px;
     margin-left: -200px;
+    z-index: 2;
+}
+
+.close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
 }
 
 /* Tooltips */

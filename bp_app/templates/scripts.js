@@ -7,8 +7,11 @@ window.onload = function() {
   };
 
 // add a close button later
-document.querySelector(".close").addEventListener("click", function(){
-    document.querySelector(".blocker").style.display = "none";
+document.querySelector(".blocker").addEventListener("click", function(event){
+    let isClickInside = document.querySelector(".popup").contains(event.target);
+    if (!isClickInside) {
+        document.querySelector(".blocker").style.display = "none";
+    }
 })
 
 async function AddRecord () {
