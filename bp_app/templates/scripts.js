@@ -20,8 +20,6 @@ document.querySelector(".close").addEventListener("click", function(){
 })
 
 async function EditRecord (elem) {
-    // bring up popup
-    document.querySelector(".blocker").style.display = "flex";
     // get record_id of this row
     let selectedId = elem.closest("tr").firstElementChild.innerHTML;
     selectedId = parseInt(selectedId, 10)
@@ -34,26 +32,34 @@ async function EditRecord (elem) {
         }
     }
     let selectedRecord = myRecords[recordIdx]
-    debugger;
+    // bring up popup
+    document.querySelector(".blocker").style.display = "flex";
+    let popupEdit = document.getElementById("popup")
+    // populate with selectedRecord values
+    Object.keys(selectedRecord).forEach( function(key) {
+        if (key != "record_id") {
+            popupEdit.querySelector("#" + key).value = selectedRecord[key]
+        }
+    })
 }
 
 async function AddRecord () {
     // get input
-    var bpUpper = document.getElementById("bpUpper").value;
-    var bpLower = document.getElementById("bpLower").value;
+    var bp_upper = document.getElementById("bp_upper").value;
+    var bp_lower = document.getElementById("bp_lower").value;
     var timestamp = document.getElementById("timestamp").value;
     var notes = document.getElementById("notes").value;
     // validate that bp was given
-    if (bpUpper === "", bpLower === "") {
+    if (bp_upper === "", bp_lower === "") {
         alert("Please fill in Blood Pressure Fields");
         return false;
     }
-    var bpUpper = parseInt(bpUpper, 10)
-    var bpLower = parseInt(bpLower, 10)
+    var bp_upper = parseInt(bp_upper, 10)
+    var bp_lower = parseInt(bp_lower, 10)
     // create payload
     var payload = {
-        "bp_upper" : bpUpper,
-        "bp_lower" : bpLower
+        "bp_upper" : bp_upper,
+        "bp_lower" : bp_lower
     }
     // add timestamp and note if provided, otherwise don't include in payload
     if (typeof timestamp === 'string' && timestamp != "") {
