@@ -2,6 +2,19 @@ body {
     background-color: rgba(45, 117, 108, 46);
 }
 
+.mainBody {
+    justify-content: center;
+    text-align: center;
+    /* style */
+    background-color: rgba(132, 194, 186, 76);
+    border-radius: 5px;
+    padding: 20px;
+    /* position */
+    max-width: 500px;
+    margin: auto;
+    padding: 10px;
+}
+
 .recordInput{
     margin: 20px auto;
     display: block;
