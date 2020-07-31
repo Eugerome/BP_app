@@ -6,24 +6,66 @@ window.onload = function() {
     CreateRecordTable();
   };
 
-// add a close button later
-document.querySelector(".blocker").addEventListener("click", function(event){
-    let isClickInside = document.querySelector(".popup").contains(event.target);
+// clickaway from edit popup to close
+document.querySelector("#addBlocker").addEventListener("click", function(event){
+    let isClickInside = document.querySelector("#popup").contains(event.target);
     if (!isClickInside) {
-        document.querySelector(".blocker").style.display = "none";
+        document.querySelector("#addBlocker").style.display = "none";
     }
 })
+
+// clickaway from delete popup to close
+document.querySelector("#deleteBlocker").addEventListener("click", function(event){
+    let isClickInside = document.querySelector("#deletePopup").contains(event.target);
+    if (!isClickInside) {
+        document.querySelector("#deleteBlocker").style.display = "none";
+    }
+})
+
+
+function GetSelectedId (elem) {
+    var selectedId = elem.closest("tr").firstElementChild.innerHTML;
+    return parseInt(selectedId, 10);
+}
+
 
 async function AddRecord () {
     // bring up popup
     document.getElementById("closeAddRecord").setAttribute("onclick", "PushRecord()");
-    document.querySelector(".blocker").style.display = "flex";
+    document.querySelector("#addBlocker").style.display = "flex";
+}
+
+async function ConfirmDeleteRecord (elem) {
+    // get record_id of this row
+    let selectedId = GetSelectedId(elem)
+    // raise popup
+    document.querySelector("#deleteBlocker").style.display = "flex";
+    // pass record_id to DeleteRecord function
+    let newButtonFunc = "DeleteRecord(" + selectedId.toString() + ")"
+    document.getElementById("deleteTrue").setAttribute("onclick", newButtonFunc);
+    }
+
+async function NoDeleteRecord() {
+    document.querySelector("#deleteBlocker").style.display = "none";
+}
+
+async function DeleteRecord(record_id) {
+    let response = await fetch("./records/" + record_id.toString(), {
+        method: "DELETE",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    // close popup
+    NoDeleteRecord();
+    // refresh table automatically
+    CreateRecordTable();
 }
 
 async function EditRecord (elem) {
     // get record_id of this row
-    let selectedId = elem.closest("tr").firstElementChild.innerHTML;
-    selectedId = parseInt(selectedId, 10)
+    let selectedId = GetSelectedId(elem)
     // access record data from myRecords
     let recordIdx = 0
     for (var i = 0; i < myRecords.length; i++) {
@@ -38,7 +80,7 @@ async function EditRecord (elem) {
     document.getElementById("closeAddRecord").setAttribute("onclick", newButtonFunc);
     // bring up popup
     let popupEdit = document.getElementById("popup")
-    document.querySelector(".blocker").style.display = "flex";
+    document.querySelector("#addBlocker").style.display = "flex";
     // populate with selectedRecord values
     Object.keys(selectedRecord).forEach( function(key) {
         if (key != "record_id") {
@@ -98,7 +140,7 @@ async function PushRecord ( record_id=null) {
     // reset popup
     document.getElementById("popup").reset();
     // make popup invisible
-    document.querySelector(".blocker").style.display = "none";
+    document.querySelector("#addBlocker").style.display = "none";
     // refresh table automatically
     CreateRecordTable();
 }
