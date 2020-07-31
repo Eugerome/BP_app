@@ -59,7 +59,8 @@ async function CreateRecordTable() {
     let myRecords = await response.json()
     // Provide col values and their headers; No need to generate since shouldn't change
     var col = ["record_id", "timestamp", "bp_upper", "bp_lower", "notes"];
-    var colHeaders = ["record_id", "Time", "Upper", "Lower", "Notes"]
+    var colHeaders = ["record_id", "Time", "Upper", "Lower", "Notes", "Edit"]
+
     // CREATE DYNAMIC TABLE.
     var table = document.createElement("table");
 
@@ -73,7 +74,7 @@ async function CreateRecordTable() {
         th.innerHTML = colHeaders[i];
         if (i == 0) {
             th.style = "display:none"
-        }; // hide record_id
+        }; // hide record_id and edit/delete headers
         tr.appendChild(th);
     }
     // ADD JSON DATA TO THE TABLE AS ROWS.
@@ -81,15 +82,20 @@ async function CreateRecordTable() {
 
         tr = table.insertRow(-1);
 
-        for (var j = 0; j < col.length; j++) {
+        for (var j = 0; j < colHeaders.length; j++) {
             var tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = myRecords[i][col[j]];
-            if (j == 0) {
-                tabCell.style = "display:none"
-            }; // hide record_id
+            if (j < col.length) {
+                tabCell.innerHTML = myRecords[i][col[j]];
+                if (j == 0) {
+                    tabCell.style = "display:none"
+                }; // hide record_id
+            } else {
+                // add edit image
+                tabCell.innerHTML = "<img src=./static/edit.png/><img src=./static/delete.png/>"
+            }
         }
     }
-    // add edit button
+    // add edit and delete button
 
     // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
     var divContainer = document.getElementById("showData");
