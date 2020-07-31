@@ -22,8 +22,14 @@
     </div>
     <div style="display:none">
         <div class="toolBox">
-            <img class="editImg" src="./static/edit.png/">
-            <img class="deleteImg" src="./static/delete.png/">
+            <div class="tooltipImg">
+                <img class="editImg" src="./static/edit.png/"/>
+                <span class="tooltipText">Edit Record</span>
+            </div>
+            <div class="tooltipImg">
+                <img class="editImg" src="./static/delete.png/"/>
+                <span class="tooltipText">Delete Record</span>
+            </div>
         </div>
     </div>
 </body>

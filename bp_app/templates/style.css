@@ -55,4 +55,27 @@ body {
     position: relative;
 }
 
-/* images */
+/* Tooltips */
+
+.tooltipImg {
+    display: inline;
+}
+
+.tooltipText {
+    visibility: hidden;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* position */
+    position: absolute;
+    z-index: 1;
+  }
+
+/* Display tooltip  */
+.tooltipImg:hover .tooltipText {
+visibility: visible;
+}
