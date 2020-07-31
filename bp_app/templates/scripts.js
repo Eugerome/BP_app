@@ -6,18 +6,16 @@ window.onload = function() {
     CreateRecordTable();
   };
 
-// adding new record
-document.getElementById("displayAddRecord").addEventListener("click", function(){
-    document.querySelector(".blocker").style.display = "flex";
-})
-
-document.getElementById("closeAddRecord").addEventListener("click", function(){
-    document.querySelector(".blocker").style.display = "none";
-})
 // add a close button later
 document.querySelector(".close").addEventListener("click", function(){
     document.querySelector(".blocker").style.display = "none";
 })
+
+async function AddRecord () {
+    // bring up popup
+    document.getElementById("closeAddRecord").setAttribute("onclick", "PushRecord()");
+    document.querySelector(".blocker").style.display = "flex";
+}
 
 async function EditRecord (elem) {
     // get record_id of this row
@@ -32,9 +30,12 @@ async function EditRecord (elem) {
         }
     }
     let selectedRecord = myRecords[recordIdx]
+    // add record id to save record button
+    let newButtonFunc = "PushRecord(" + selectedRecord["record_id"] + ")"
+    document.getElementById("closeAddRecord").setAttribute("onclick", newButtonFunc);
     // bring up popup
-    document.querySelector(".blocker").style.display = "flex";
     let popupEdit = document.getElementById("popup")
+    document.querySelector(".blocker").style.display = "flex";
     // populate with selectedRecord values
     Object.keys(selectedRecord).forEach( function(key) {
         if (key != "record_id") {
@@ -43,7 +44,7 @@ async function EditRecord (elem) {
     })
 }
 
-async function AddRecord () {
+async function PushRecord ( record_id=null) {
     // get input
     var bp_upper = document.getElementById("bp_upper").value;
     var bp_lower = document.getElementById("bp_lower").value;
@@ -63,21 +64,42 @@ async function AddRecord () {
     }
     // add timestamp and note if provided, otherwise don't include in payload
     if (typeof timestamp === 'string' && timestamp != "") {
+        timestamp = new Date(timestamp)
+        timestamp = timestamp.toISOString()
         payload["timestamp"] = timestamp;
     }
     if (typeof notes === 'string' && notes != "") {
         payload["notes"] = notes;
     }
-    // post payload
-    let response = await fetch("./records", {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-        body: JSON.stringify(payload)
-    })
+    // if record_id is null - create new record, otherwise edit existing one
+    if (record_id == null) {
+        // post payload
+        let response = await fetch("./records", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(payload)
+        })
+    } else {
+        let response = await fetch("./records/" + record_id.toString(), {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(payload)
+        })
+    }
+    // reset popup
+    document.getElementById("popup").reset();
+    // make popup invisible
+    document.querySelector(".blocker").style.display = "none";
+    // refresh table automatically
+    CreateRecordTable();
 }
+
 
 async function CreateRecordTable() {
     // refresh
@@ -86,7 +108,7 @@ async function CreateRecordTable() {
 
     // Provide col values and their headers; No need to generate since shouldn't change
     let col = ["record_id", "timestamp", "bp_upper", "bp_lower", "notes"];
-    let colHeaders = ["record_id", "Time", "Upper", "Lower", "Notes", "Edit"]
+    let colHeaders = ["record_id", "Time", "Upper", "Lower", "Notes", "Edit"];
 
     // CREATE DYNAMIC TABLE.
     let table = document.createElement("table");
@@ -127,8 +149,7 @@ async function CreateRecordTable() {
     // add edit and delete button
 
     // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-    let divContainer = document.getElementById("showData");
+    let divContainer = document.getElementById("dataTable");
     divContainer.innerHTML = "";
-    divContainer.id = "dataTable";
     divContainer.appendChild(table);
 }

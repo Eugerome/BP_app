@@ -6,19 +6,19 @@
 </head>
 <body>
     <div class="mainBody">
-        <input type="button" class="button" id="displayAddRecord" value="Add Record"/>
+        <input type="button" class="button" onclick="AddRecord()" id="displayAddRecord" value="Add Record"/>
         <h3>Records:</h3>
         <input type="button" onclick="CreateRecordTable()" value="Refresh Records"/>
-        <div class="dataTable" id="showData"/>
+        <div class="dataTable" id="dataTable"/>
     </div>
     <div class="blocker">
-        <div class="popup" id="popup">
+        <form class="popup" id="popup">
             <input type="number" class="recordInput" id="bp_upper" placeholder="120" min="70" max="370"/>
             <input type="number" class="recordInput" id="bp_lower" placeholder="70" min="20" max="370"/>
             <input type="datetime-local" class="recordInput" id="timestamp" step="1"/>
             <input type="text" class="recordInput" id="notes" placeholder="My Notes"/>
-            <input type="button" onclick="AddRecord()" class="button" id="closeAddRecord" value="Add Record"/>
-        </div>
+            <input type="button" onclick="PushRecord()" class="button" id="closeAddRecord" value="Save Record"/>
+        </form>
     </div>
     <div style="display:none">
         <div class="toolBox">
