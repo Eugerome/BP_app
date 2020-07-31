@@ -57,16 +57,9 @@ async function CreateRecordTable() {
 
 
     let myRecords = await response.json()
-    // EXTRACT VALUE FOR HTML HEADER.
-    var col = [];
-    for (var i = 0; i < myRecords.length; i++) {
-        for (var key in myRecords[i]) {
-            if (col.indexOf(key) === -1) {
-                col.push(key);
-            }
-        }
-    }
-
+    // Provide col values and their headers; No need to generate since shouldn't change
+    var col = ["record_id", "timestamp", "bp_upper", "bp_lower", "notes"];
+    var colHeaders = ["record_id", "Time", "Upper", "Lower", "Notes"]
     // CREATE DYNAMIC TABLE.
     var table = document.createElement("table");
 
@@ -74,12 +67,15 @@ async function CreateRecordTable() {
 
     var tr = table.insertRow(-1);                   // TABLE ROW.
 
-    for (var i = 0; i < col.length; i++) {
-        var th = document.createElement("th");      // TABLE HEADER.
-        th.innerHTML = col[i];
+    // Create Headers
+    for (var i = 0; i < colHeaders.length; i++) {
+        var th = document.createElement("th");
+        th.innerHTML = colHeaders[i];
+        if (i == 0) {
+            th.style = "display:none"
+        }; // hide record_id
         tr.appendChild(th);
     }
-
     // ADD JSON DATA TO THE TABLE AS ROWS.
     for (var i = 0; i < myRecords.length; i++) {
 
@@ -88,8 +84,12 @@ async function CreateRecordTable() {
         for (var j = 0; j < col.length; j++) {
             var tabCell = tr.insertCell(-1);
             tabCell.innerHTML = myRecords[i][col[j]];
+            if (j == 0) {
+                tabCell.style = "display:none"
+            }; // hide record_id
         }
     }
+    // add edit button
 
     // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
     var divContainer = document.getElementById("showData");
