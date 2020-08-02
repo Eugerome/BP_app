@@ -22,19 +22,49 @@ document.querySelector("#deleteBlocker").addEventListener("click", function(even
     }
 })
 
+// display dates at user browser time
+function LocalTime (timestamp) {
+    let localDateTime = new Date(timestamp)
+    return localDateTime.toLocaleString();
+}
 
+// convert date provided by browser into iso string
+function IsoTime (timestamp) {
+    let localDateTime = new Date(timestamp)
+    return localDateTime.toISOString();
+}
+
+// convert date to browser calendar compatable format
+function HtmlTime (timestamp) {
+    let localDateTime = new Date(timestamp);
+    // Stripping .toISOString() won't work since HTML datetime is timezone naive
+    let yyyy = localDateTime.getFullYear().toString();
+    let mm = (localDateTime.getMonth() + 1).toString(); // getMonth() is zero-based
+    let dd = localDateTime.getDate().toString();
+    if (mm.length != 2) {
+        mm = "0" + mm
+    };
+    if (dd.length != 2) {
+        dd = "0" + dd
+    };
+    let time = localDateTime.toTimeString().slice(0,8);
+    return yyyy + "-" + mm + "-" + dd + "T" + time
+}
+
+// get record_id for item
 function GetSelectedId (elem) {
     var selectedId = elem.closest("tr").firstElementChild.innerHTML;
     return parseInt(selectedId, 10);
 }
 
-
+// triggers when Add Record button is clicked
 async function AddRecord () {
     // bring up popup
     document.getElementById("closeAddRecord").setAttribute("onclick", "PushRecord()");
     document.querySelector("#addBlocker").style.display = "flex";
 }
 
+// triggers when delete record butoon is clicked
 async function ConfirmDeleteRecord (elem) {
     // get record_id of this row
     let selectedId = GetSelectedId(elem)
@@ -45,10 +75,12 @@ async function ConfirmDeleteRecord (elem) {
     document.getElementById("deleteTrue").setAttribute("onclick", newButtonFunc);
     }
 
+// triggers if delete action not confirmed
 async function NoDeleteRecord() {
     document.querySelector("#deleteBlocker").style.display = "none";
 }
 
+// triggers if delete action is confirmed
 async function DeleteRecord(record_id) {
     let response = await fetch("./records/" + record_id.toString(), {
         method: "DELETE",
@@ -83,7 +115,10 @@ async function EditRecord (elem) {
     document.querySelector("#addBlocker").style.display = "flex";
     // populate with selectedRecord values
     Object.keys(selectedRecord).forEach( function(key) {
-        if (key != "record_id") {
+        // convert timestamp to format readable by browser
+        if (key == "timestamp") {
+            popupEdit.querySelector("#" + key).value = HtmlTime(selectedRecord[key])
+        } else if (key != "record_id") {
             popupEdit.querySelector("#" + key).value = selectedRecord[key]
         }
     })
@@ -109,8 +144,7 @@ async function PushRecord ( record_id=null) {
     }
     // add timestamp and note if provided, otherwise don't include in payload
     if (typeof timestamp === 'string' && timestamp != "") {
-        timestamp = new Date(timestamp)
-        timestamp = timestamp.toISOString()
+        timestamp = IsoTime(timestamp)
         payload["timestamp"] = timestamp;
     }
     if (typeof notes === 'string' && notes != "") {
@@ -181,10 +215,15 @@ async function CreateRecordTable() {
         for (let j = 0; j < colHeaders.length; j++) {
             let tabCell = tr.insertCell(-1);
             if (j < col.length) {
-                tabCell.innerHTML = myRecords[i][col[j]];
-                if (j == 0) {
-                    tabCell.style = "display:none"
-                }; // hide record_id
+                // catch timestamp and convert to local time
+                if (col[j] == "timestamp") {
+                    tabCell.innerHTML = LocalTime(myRecords[i][col[j]])
+                } else {
+                    tabCell.innerHTML = myRecords[i][col[j]];
+                    if (j == 0) {
+                        tabCell.style = "display:none"
+                    }; // hide record_id
+                }
             } else {
                 // add edit/delete image
                 tabCell.innerHTML = toolBox.outerHTML;

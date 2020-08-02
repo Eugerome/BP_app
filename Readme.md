@@ -2,7 +2,7 @@
 
 A Python Pyramid powered API that stores and retrieves Blood Pressure records.
 
-Has a Swagger UI for documentation.
+Has a Swagger UI for documentation/testing.
 
 Has a User UI powered with pure JavaScript (first attempts).
 
@@ -38,3 +38,10 @@ pserve development.ini
 
 Access Swagger UI at http://localhost:6543/docs
 Access User UI at http://localhost:6543/table
+
+### Next steps
+
+* Visual User UI improvements (Html+CSS work)
+* Adding Graph View (Python/JavaScript)
+* Adding Authentication for multiple user use
+* Restructuring DB/API to handle multiple users
