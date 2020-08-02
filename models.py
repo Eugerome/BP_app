@@ -2,7 +2,7 @@
 
 import json
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 import dateutil.parser
 
 from pyramid.security import Allow, Everyone, Authenticated
@@ -35,7 +35,7 @@ class Record(Base):
 
     def __init__(
         self,
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
         bp_upper=random.randint(100, 160),
         bp_lower=random.randint(50, 80),
         notes="Test",
@@ -61,16 +61,17 @@ class Record(Base):
     @staticmethod
     def get_timestamp(timestamp=None):
         if not timestamp:
-            timestamp = datetime.utcnow()
+            timestamp = datetime.now(timezone.utc)
         if not isinstance(timestamp, str):
             timestamp = timestamp.isoformat(timespec="seconds")
         return dateutil.parser.parse(timestamp)
 
     def to_dict(self):
         """Returns instance as dict."""
+        # when returning dates add Z to timestamp to conform to ISO
         return {
             "record_id": self.record_id,
-            "timestamp": self.timestamp.isoformat(timespec="seconds"),
+            "timestamp": "{}Z".format(self.timestamp.isoformat(timespec="seconds")),
             "bp_upper": self.bp_upper,
             "bp_lower": self.bp_lower,
             "notes": self.notes,

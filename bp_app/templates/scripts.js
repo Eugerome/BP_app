@@ -22,19 +22,25 @@ document.querySelector("#deleteBlocker").addEventListener("click", function(even
     }
 })
 
+// display dates at user browser time
+function UserTimezone (timestamp) {
 
+}
+
+// get record_id for item
 function GetSelectedId (elem) {
     var selectedId = elem.closest("tr").firstElementChild.innerHTML;
     return parseInt(selectedId, 10);
 }
 
-
+// triggers when Add Record button is clicked
 async function AddRecord () {
     // bring up popup
     document.getElementById("closeAddRecord").setAttribute("onclick", "PushRecord()");
     document.querySelector("#addBlocker").style.display = "flex";
 }
 
+// triggers when delete record butoon is clicked
 async function ConfirmDeleteRecord (elem) {
     // get record_id of this row
     let selectedId = GetSelectedId(elem)
@@ -45,10 +51,12 @@ async function ConfirmDeleteRecord (elem) {
     document.getElementById("deleteTrue").setAttribute("onclick", newButtonFunc);
     }
 
+// triggers if delete action not confirmed
 async function NoDeleteRecord() {
     document.querySelector("#deleteBlocker").style.display = "none";
 }
 
+// triggers if delete action is confirmed
 async function DeleteRecord(record_id) {
     let response = await fetch("./records/" + record_id.toString(), {
         method: "DELETE",
