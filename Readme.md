@@ -1,21 +1,25 @@
 # Blood Pressure Recording app
 
-Input records which get saved to database.
+A Python Pyramid powered API that stores and retrieves Blood Pressure records.
+
+Has a Swagger UI for documentation.
+
+Has a User UI powered with pure JavaScript (first attempts).
+
+### BUGS
+
+!!! Currently openapi validation not working out of the box. The easiest fix at this point is manually applying the changes below:
+https://github.com/Pylons/pyramid_openapi3/issues/87
 
 ### Getting Started
 
-!!! Currently openapi validation not working due to bug
-https://github.com/Pylons/pyramid_openapi3/issues/87
-
-#### Docker
+#### With Docker
 Clone the repository.
 
 Spin up a docker container with
 `docker-compose up`
 
-Access Swagger UI at http://localhost:6543/docs
-
-#### Linux
+#### With Linux Machine
 Make sure python and virtualenv are installed
 
 Clone the repository
@@ -30,4 +34,7 @@ python bp_app/initialize_db.py development.ini
 pserve development.ini
 ```
 
+### Running
+
 Access Swagger UI at http://localhost:6543/docs
+Access User UI at http://localhost:6543/table
