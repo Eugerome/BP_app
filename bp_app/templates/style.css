@@ -1,6 +1,19 @@
 body {
     background-color: rgba(45, 117, 108, 46);
 }
+/* Table formatting start */
+
+table {
+    border-collapse: collapse; /* IE7 and lower */
+    border-spacing: 0;
+}
+table tr:nth-child(even) td {
+    background-color: rgba(137, 217, 183, 85);
+}
+
+
+
+/* Table formatting end */
 
 .mainBody {
     justify-content: center;
@@ -24,9 +37,10 @@ body {
 }
 
 .button {
-    background-color: green;
+    background-color: rgba(137, 217, 183, 85);
     padding: 10px 15px;
     color: black;
+    border-color: rgba(130, 207, 153, 81);
     font-weight: bolder;
     text-transform: uppercase;
     font-size: 18px;

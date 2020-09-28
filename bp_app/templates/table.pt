@@ -33,11 +33,11 @@
         <div class="toolBox">
             <div class="tooltipImg">
                 <img class="editImg" onclick="EditRecord(this)" alt="Edit" src="./static/edit.png/"/>
-                <span class="tooltipText">Edit Record</span>
+                <span class="tooltipText">Edit</span>
             </div>
             <div class="tooltipImg">
                 <img class="editImg" onclick="ConfirmDeleteRecord(this)" alt="Delete" src="./static/delete.png/"/>
-                <span class="tooltipText">Delete Record</span>
+                <span class="tooltipText">Delete</span>
             </div>
         </div>
     </div>

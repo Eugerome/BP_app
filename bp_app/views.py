@@ -35,7 +35,7 @@ class BpApiViews:
         logger.info("Return records")
         if not self.request.params:
             logger.info("Returns all records")
-            records = DBSession.query(Record).all()
+            records = DBSession.query(Record).order_by(Record.timestamp.desc()).all()
         else:
             logger.info("Searching records by params")
             for key in self.request.params.keys():
@@ -50,6 +50,7 @@ class BpApiViews:
             records = (
                 DBSession.query(Record)
                 .filter(Record.timestamp.between(start_date, end_date))
+                .order_by(Record.timestamp.desc())
                 .all()
             )
         if records:
