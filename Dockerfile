@@ -6,3 +6,4 @@ RUN apt-get install vim -y
 RUN apt-get install git -y
 
 EXPOSE 6543
+EXPOSE 3000
