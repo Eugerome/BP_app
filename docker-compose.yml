@@ -6,10 +6,10 @@ services:
             context: ./backend
             dockerfile: "Dockerfile"
         volumes:
-            - .:/BP_app
+            - ../BP_app/backend:/backend
         ports:
             - "6543:6543"
-        command: /bin/sh -c 'cd BP_app/backend && pip3 install -e ".[development]" && python3 bp_app/initialize_db.py development.ini && pserve development.ini && while sleep 1000; do :; done'
+        command: /bin/sh -c 'cd backend && pip3 install -e ".[development]" && python3 bp_app/initialize_db.py development.ini && while sleep 1000; do :; done'
         # command: /bin/sh -c 'while sleep 1000; do :; done'
     frontend:
         network_mode: host
@@ -17,9 +17,9 @@ services:
             context: ./frontend
             dockerfile: "Dockerfile"
         volumes:
-            - .:/BP_app
+            - ../BP_app/frontend:/frontend
         ports:
             - "3000:3000"
-        command: /bin/sh -c 'while sleep 1000; do :; done'
+        command: /bin/sh -c 'cd frontend && while sleep 1000; do :; done'
         
 
