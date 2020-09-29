@@ -1,5 +1,7 @@
 **/bp_app.egg-info
 **/__pycache__
 **/.pytest_cache
+**/.devcontainer
+**/.vscode
 **/sqltutorial.sqlite
 **/node_modules
