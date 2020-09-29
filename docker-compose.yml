@@ -1,6 +1,7 @@
 version: "3"
 services:
     backend:
+        network_mode: host
         build:
             context: ./backend
             dockerfile: "Dockerfile"
@@ -8,9 +9,10 @@ services:
             - .:/BP_app
         ports:
             - "6543:6543"
-        # command: /bin/sh -c 'cd ./BP_app/bp_app && pip3 install -e ".[development]" && pre-commit install && python3 bp_app/initialize_db.py development.ini && pserve development.ini'
-        command: /bin/sh -c 'while sleep 1000; do :; done'
+        command: /bin/sh -c 'cd BP_app/backend && pip3 install -e ".[development]" && python3 bp_app/initialize_db.py development.ini && pserve development.ini && while sleep 1000; do :; done'
+        # command: /bin/sh -c 'while sleep 1000; do :; done'
     frontend:
+        network_mode: host
         build:
             context: ./frontend
             dockerfile: "Dockerfile"
@@ -18,8 +20,6 @@ services:
             - .:/BP_app
         ports:
             - "3000:3000"
-        links: 
-            - backend
         command: /bin/sh -c 'while sleep 1000; do :; done'
         
 

@@ -5,14 +5,13 @@ RUN apt upgrade -y
 RUN apt-get install vim -y
 RUN apt-get install git -y
 
-# VOLUME ./BP_app
-
-# RUN ls
+# COPY . /BP_app
 
 # WORKDIR /BP_app
 
-# # installing backend
-# RUN ls
-# RUN cd /cool/BP_app/backend && pip3 install -e ".[development]" && python3 bp_app/initialize_db.py development.ini
+# RUN pip3 install -e ".[development]"
+# RUN python3 bp_app/initialize_db.py development.ini
+
+# CMD [ "pserve", "development.ini" ]
 
 EXPOSE 6543
