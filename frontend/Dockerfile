@@ -1,8 +1,5 @@
-FROM python:3.8-slim
+FROM node:alpine
 
-RUN apt update
-RUN apt upgrade -y
-RUN apt-get install vim -y
-RUN apt-get install git -y
+RUN apk update && apk add bash
 
 EXPOSE 3000

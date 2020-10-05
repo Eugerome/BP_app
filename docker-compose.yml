@@ -20,6 +20,6 @@ services:
             - ../BP_app/frontend:/frontend
         ports:
             - "3000:3000"
-        command: /bin/sh -c 'cd frontend && while sleep 1000; do :; done'
+        command: /bin/sh -c 'npm install && while sleep 1000; do :; done'
         
 
