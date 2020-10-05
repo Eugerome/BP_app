@@ -1,5 +1,10 @@
-FROM node:alpine
+FROM node:carbon-slim
 
-RUN apk update && apk add bash
+RUN apt-get -y update \
+  && apt-get install -y git
 
-EXPOSE 3000
+RUN npm install -g @vue/cli
+
+WORKDIR /frontend
+
+EXPOSE 8080
